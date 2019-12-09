@@ -1,3 +1,8 @@
+/*
+Non working code snipped:
+This snipped shows how to search for a geometrie like a country, city or region and draw the results onto azure maps as a polygon
+*/
+
 const url1 = "https://atlas.microsoft.com/search/address/json?subscription-key=[sub]&api-version=1.0&query=Niedersachsen&typeahead=true&limit=1"
             
 fetch(url1).then((response) => {
