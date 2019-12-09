@@ -14,17 +14,25 @@ fetch(url1).then((response) => {
     fetch(url).then((geopoly) => {
         geopoly.json().then((data) => {
             const coords = data.additionalData[0].geometryData.features[0].geometry
-            console.log(coords)
+            console.log(coords.type)
 
-            this._dataSource.add(new atlas.data.Feature(
-                new atlas.data.MultiPolygon(coords.coordinates)
-            ))
+            let poly = null
+            if (coords.type === "Polygon") {
+                poly = new atlas.data.Polygon(coords.coordinates)
+            } else if (coords.type === "MultiPolygon") {
+                poly = new atlas.data.MultiPolygon(coords.coordinates)
+            }
 
-            map.layers.add(new atlas.layer.PolygonLayer(this._dataSource, null,{
-                fillColor: 'red',
-                opacaty: 0.5
-            }));
+            if (poly !== null) {
+                this._dataSource.add(new atlas.data.Feature(
+                    poly
+                ))
 
+                map.layers.add(new atlas.layer.PolygonLayer(this._dataSource, null,{
+                    fillColor: 'red',
+                    opacaty: 0.5
+                }));
+            }
         })
     })
 })
